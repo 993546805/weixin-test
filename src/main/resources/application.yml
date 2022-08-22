@@ -17,4 +17,4 @@ mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
 
 wx:
-  token: 08081907
+  token: "08081907"

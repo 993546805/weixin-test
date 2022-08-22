@@ -27,4 +27,9 @@ public class WxSignatureCheckController {
         return wxSignatureCheckService.check(signature, timestamp, nonce, echostr);
     }
 
+    @RequestMapping("/get_token")
+    public String getToken() {
+        return wxSignatureCheckService.getToken();
+    }
+
 }
