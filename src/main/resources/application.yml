@@ -18,6 +18,8 @@ mybatis:
 
 wx:
   token: "08081907"
+  appid: wxa2fecf7f05af6c77
+  secret: 98b846fcecf7bbc381af0a83aa10abe4
 logging:
   level:
     com.tencent: debug
