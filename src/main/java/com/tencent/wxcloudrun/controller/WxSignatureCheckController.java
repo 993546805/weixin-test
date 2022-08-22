@@ -24,7 +24,8 @@ public class WxSignatureCheckController {
             , @RequestParam("timestamp") String timestamp
             , @RequestParam("nonce") String nonce
             , @RequestParam("echostr") String echostr) {
-        return wxSignatureCheckService.check(signature, timestamp, nonce, echostr);
+//        return wxSignatureCheckService.check(signature, timestamp, nonce, echostr);
+        return echostr;
     }
 
     @RequestMapping("/get_token")
