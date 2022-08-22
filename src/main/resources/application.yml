@@ -15,3 +15,6 @@ spring:
 
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
+
+wx:
+  token: 08081907
