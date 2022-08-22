@@ -23,8 +23,8 @@ public class WxTemplateMessageController {
     }
 
 
-    @GetMapping("/set_template_id/#{templateId}")
-    public String setTemplateId(@PathVariable("templateId") String templateId) {
+    @GetMapping("/set_template_id/{templateId}")
+    public String changeTemplateId(@PathVariable String templateId) {
         if (StringUtils.isEmpty(templateId)) {
             return "模板 ID 为空";
         }
