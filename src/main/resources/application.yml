@@ -18,6 +18,3 @@ mybatis:
 
 wx:
   token: "08081907"
-logging:
-  level:
-    com.tencent.wxclundrun: debug
