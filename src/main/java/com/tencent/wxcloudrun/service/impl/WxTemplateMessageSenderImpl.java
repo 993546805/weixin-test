@@ -4,6 +4,7 @@ import com.tencent.wxcloudrun.service.WxApi;
 import com.tencent.wxcloudrun.service.WxTemplateMessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +23,7 @@ public class WxTemplateMessageSenderImpl implements WxTemplateMessageSender {
     private String templateId = "7lxin4OK9Np8OvA41304Wpaw9sJuybLIvf57cHyGgkQ";
 
     @Override
-    public void send(Map<String, String> messageParam) {
+    public void send(@RequestBody Map<String, String> messageParam) {
         Map<String,Object> dataMap = buildData(messageParam);
         List<String> openIdList = wxApi.getWatchOpenIdList();
         for (String openId : openIdList) {
