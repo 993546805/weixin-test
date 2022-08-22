@@ -1,5 +1,6 @@
 package com.tencent.wxcloudrun.service.impl;
 
+import com.tencent.wxcloudrun.core.exception.GlobalException;
 import com.tencent.wxcloudrun.service.WxApi;
 import com.tencent.wxcloudrun.service.WxTemplateMessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,10 @@ public class WxTemplateMessageSenderImpl implements WxTemplateMessageSender {
 
     @Override
     public void send(@RequestBody Map<String, String> messageParam) {
-        Map<String,Object> dataMap = buildData(messageParam);
+        Map<String, Object> dataMap = buildData(messageParam);
         List<String> openIdList = wxApi.getWatchOpenIdList();
         for (String openId : openIdList) {
-            Map<String,Object> messageBody = buildMessageBody(dataMap, openId, templateId, "#FF0000");
+            Map<String, Object> messageBody = buildMessageBody(dataMap, openId, templateId, "#FF0000");
             wxApi.sendTemplateMessage(messageBody);
         }
     }
@@ -40,6 +41,9 @@ public class WxTemplateMessageSenderImpl implements WxTemplateMessageSender {
     private Map<String, Object> buildMessageBody(Map<String, Object> dataMap, String openId, String templateId, String topColor) {
         Map<String, Object> messageBody = new HashMap<>();
         messageBody.put("touser", openId);
+        if (templateId == null) {
+            throw new GlobalException("templateId 为空,请先设置 templateId");
+        }
         messageBody.put("template_id", templateId);
         messageBody.put("topcolor", topColor);
         messageBody.put("data", dataMap);
@@ -47,9 +51,9 @@ public class WxTemplateMessageSenderImpl implements WxTemplateMessageSender {
     }
 
     private Map<String, Object> buildData(Map<String, String> messageParam) {
-        Map<String,Object> dataMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
         for (Map.Entry<String, String> stringStringEntry : messageParam.entrySet()) {
-            Map<String,Object> value = new HashMap<>();
+            Map<String, Object> value = new HashMap<>();
             value.put("value", stringStringEntry.getValue());
             value.put("color", "#c3c3c3");
             dataMap.put(stringStringEntry.getKey(), value);
