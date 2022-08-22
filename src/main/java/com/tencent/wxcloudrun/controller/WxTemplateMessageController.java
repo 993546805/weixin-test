@@ -18,8 +18,15 @@ public class WxTemplateMessageController {
     private WxTemplateMessageSender wxTemplateMessageSender;
 
     @PostMapping("/send_template_message")
-    public void sendMessage(@RequestBody Map<String, String> messageParam) {
-        wxTemplateMessageSender.send(messageParam);
+    public String sendMessage(@RequestBody Map<String, String> messageParam) {
+        try {
+            wxTemplateMessageSender.send(messageParam);
+        }catch (Exception e){
+            e.printStackTrace();
+            return e.getMessage();
+        }
+        return "消息发送成功";
+
     }
 
 
