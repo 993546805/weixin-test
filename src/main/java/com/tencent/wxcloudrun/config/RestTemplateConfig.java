@@ -20,9 +20,7 @@ public class RestTemplateConfig {
     @Bean
     public RestTemplate restTemplate(){
         RestTemplate restTemplate = new RestTemplate();
-        ArrayList<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
-        messageConverters.add(new WxMappingJackson2HttpMessageConverter());
-        restTemplate.setMessageConverters(messageConverters);
+        restTemplate.getMessageConverters().add(new WxMappingJackson2HttpMessageConverter());
         return restTemplate;
 
     }
