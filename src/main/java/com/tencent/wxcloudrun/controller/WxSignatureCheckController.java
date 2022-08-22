@@ -20,17 +20,13 @@ public class WxSignatureCheckController {
     }
 
     @RequestMapping("/wx_check")
-    public String wxSignatureCheck(@RequestParam("signature") String signature
-            , @RequestParam("timestamp") String timestamp
-            , @RequestParam("nonce") String nonce
-            , @RequestParam("echostr") String echostr) {
-//        return wxSignatureCheckService.check(signature, timestamp, nonce, echostr);
-        return echostr;
+    public String wxSignatureCheck(@RequestParam(value = "signature",required = false) String signature
+            , @RequestParam(value = "timestamp",required = false) String timestamp
+            , @RequestParam(value = "nonce",required = false) String nonce
+            , @RequestParam(value = "echostr",required = false) String echostr) {
+        return wxSignatureCheckService.check(signature, timestamp, nonce, echostr);
     }
 
-    @RequestMapping("/get_token")
-    public String getToken() {
-        return wxSignatureCheckService.getToken();
-    }
+
 
 }
