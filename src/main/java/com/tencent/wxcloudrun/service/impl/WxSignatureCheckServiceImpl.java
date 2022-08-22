@@ -26,10 +26,13 @@ public class WxSignatureCheckServiceImpl implements WxSignatureCheckService {
     public String check(String signature, String timestamp, String nonce, String echostr) {
         String parsedToken = SHA1.getSHA1(token, timestamp, nonce, echostr);
 
+        log.info("token: [{}]", token);
+        log.info("signature:[{}] ,timestamp:[{}] ,nonce:[{}], echostr:[{}]", signature, timestamp, nonce, echostr);
+        log.info("parsedToken: [{}]", parsedToken);
         if (!"".equals(parsedToken) && parsedToken.equals(signature)) {
             log.info("验签通过");
             return echostr;
-        }else{
+        } else {
             log.info("验签失败");
             return null;
         }
