@@ -17,6 +17,5 @@ public interface WxSignatureCheckService {
      */
     String check(String signature, String timestamp, String nonce, String echostr);
 
-    String getToken();
 
 }
