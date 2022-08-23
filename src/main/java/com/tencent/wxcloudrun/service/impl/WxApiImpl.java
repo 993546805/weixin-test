@@ -37,12 +37,12 @@ public class WxApiImpl implements WxApi {
     private Date accessTokenExpiredTime;
 
 
-    private static final Map<String, String> urlMap = new HashMap<>();
+    private static final Map<String, String> URL_MAP = new HashMap<>();
 
     static {
-        urlMap.put("access_token", "https://api.weixin.qq.com/cgi-bin/token");
-        urlMap.put("user_list", "https://api.weixin.qq.com/cgi-bin/user/get?access_token=#{ACCESS_TOKEN}");
-        urlMap.put("send_template", "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=#{ACCESS_TOKEN}");
+        URL_MAP.put("access_token", "https://api.weixin.qq.com/cgi-bin/token");
+        URL_MAP.put("user_list", "https://api.weixin.qq.com/cgi-bin/user/get?access_token=#{ACCESS_TOKEN}");
+        URL_MAP.put("send_template", "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=#{ACCESS_TOKEN}");
     }
 
     @Override
@@ -52,7 +52,7 @@ public class WxApiImpl implements WxApi {
             uriVariables.put("grant_type", "client_credential");
             uriVariables.put("appid", appid);
             uriVariables.put("secret", secret);
-            String url = urlMap.get("access_token");
+            String url = URL_MAP.get("access_token");
             url = url + "?grant_type=client_credential&appid=" + appid + "&secret=" + secret;
             Map<String, Object> response = restTemplate.getForObject(url, Map.class);
             String accessToken = (String) response.get("access_token");
@@ -73,7 +73,7 @@ public class WxApiImpl implements WxApi {
     @Override
     public void sendTemplateMessage(Map<String, Object> messageBody) {
 
-        String url = urlMap.get("send_template");
+        String url = URL_MAP.get("send_template");
         String realUrl = url.replace("#{ACCESS_TOKEN}", getAccessToken());
 
         log.info("send template message body : [{}]", messageBody);
@@ -99,7 +99,7 @@ public class WxApiImpl implements WxApi {
 
     @Override
     public List<String> getWatchOpenIdList() {
-        String userListUrl = urlMap.get("user_list");
+        String userListUrl = URL_MAP.get("user_list");
         String realUrl = userListUrl.replace("#{ACCESS_TOKEN}", getAccessToken());
         UserOpenIdDTO userOpenIdDTO = restTemplate.getForObject(realUrl, UserOpenIdDTO.class);
         List<String> list = Optional.ofNullable(userOpenIdDTO).map(userOpenIdDTO1 -> userOpenIdDTO1.getData().getOpenid()).orElseThrow(() -> new RuntimeException("获取关注列表失败"));
