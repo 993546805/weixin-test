@@ -62,7 +62,7 @@ public class WxApiImpl implements WxApi {
             this.accessToken = accessToken;
             Integer expiresMill = (Integer) response.get("expires_in");
             this.accessTokenExpiredTime = new Date(System.currentTimeMillis() + expiresMill * 1000);
-            log.info("accessToken: [{}], expiredTime: [{}],nowTime: [{}]", accessToken, accessTokenExpiredTime,new Date());
+            log.info("accessToken: [{}], expiredTime: [{}],nowTime: [{}]", accessToken, accessTokenExpiredTime, new Date());
             return accessToken;
         } else {
             return accessToken;
@@ -109,7 +109,7 @@ public class WxApiImpl implements WxApi {
     @Override
     public String handleMessage(HttpServletRequest request) {
         Map<String, String> map = WechatMessageUtil.xmlToMap(request);
-        log.info("接收到的消息: [{}]",map);
+        log.info("接收到的消息: [{}]", map);
         // 发送方帐号（一个OpenID）
         String fromUserName = map.get("FromUserName");
         // 开发者微信号
@@ -129,6 +129,7 @@ public class WxApiImpl implements WxApi {
             responseMessage = WechatMessageUtil.textMessageToXml(textMessage);
 
         }
+        log.info("发送的消息: [{}]", responseMessage);
         return responseMessage;
     }
 
