@@ -210,6 +210,10 @@ public class WxTemplateMessageSenderImpl implements WxTemplateMessageSender, Ini
         loveDescrptionSet.add("撒娇和粘人都是被动技能、只有遇到对的人才有触发的可能～");
         loveDescrptionSet.add("秋千水、竹马道、一眼见你、万物不及～");
         loveDescrptionSet.add("最重要的事就是见你～");
+        loveDescrptionSet.add("The moment I like you, there is nothing in my eyes.");
+        loveDescrptionSet.add("那我十月一去找你，然后我们两个隔着栅栏看一眼～");
+        loveDescrptionSet.add("我会今天爱你～明天爱你～后天爱你～天天爱你～我会一直爱你～这是我会～不是我想～");
+        loveDescrptionSet.add("你给的爱不算热烈、只是细水长流的细节里、都是你爱我的表现～");
     }
 
 
