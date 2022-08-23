@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
 /**
  * @author tu
@@ -35,9 +36,16 @@ public class WxSignatureCheckController {
 
     @PostMapping("/wx_check")
     public void onMessage(PrintWriter out, HttpServletRequest request, HttpServletResponse response) {
-        String responseMessage = wxApi.handleMessage(request);
-        out.print(responseMessage);
-        out.flush();
+        try {
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            String responseMessage = wxApi.handleMessage(request);
+            out.print(responseMessage);
+            out.flush();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
