@@ -1,9 +1,11 @@
 package com.tencent.wxcloudrun.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.tencent.wxcloudrun.dto.TextMessage;
 import com.tencent.wxcloudrun.dto.UserOpenIdDTO;
 import com.tencent.wxcloudrun.service.WxApi;
 import com.tencent.wxcloudrun.util.JsonUtils;
+import com.tencent.wxcloudrun.util.WechatMessageUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -101,6 +104,32 @@ public class WxApiImpl implements WxApi {
         UserOpenIdDTO userOpenIdDTO = restTemplate.getForObject(realUrl, UserOpenIdDTO.class);
         List<String> list = Optional.ofNullable(userOpenIdDTO).map(userOpenIdDTO1 -> userOpenIdDTO1.getData().getOpenid()).orElseThrow(() -> new RuntimeException("获取关注列表失败"));
         return list;
+    }
+
+    @Override
+    public String handleMessage(HttpServletRequest request) {
+        Map<String, String> map = WechatMessageUtil.xmlToMap(request);
+        log.info("接收到的消息: [{}]",map);
+        // 发送方帐号（一个OpenID）
+        String fromUserName = map.get("FromUserName");
+        // 开发者微信号
+        String toUserName = map.get("ToUserName");
+        // 消息类型
+        String msgType = map.get("MsgType");
+        String content = map.get("Content");
+        // 默认回复一个"success"
+        String responseMessage = "success";
+        if (WechatMessageUtil.MESSAGE_TEXT.equals(msgType)) {
+            TextMessage textMessage = new TextMessage();
+            textMessage.setMsgType(WechatMessageUtil.MESSAGE_TEXT);
+            textMessage.setToUserName(fromUserName);
+            textMessage.setFromUserName(toUserName);
+            textMessage.setCreateTime(System.currentTimeMillis());
+            textMessage.setContent("收到!" + content);
+            responseMessage = WechatMessageUtil.textMessageToXml(textMessage);
+
+        }
+        return responseMessage;
     }
 
 

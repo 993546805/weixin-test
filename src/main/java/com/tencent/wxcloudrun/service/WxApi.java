@@ -1,5 +1,6 @@
 package com.tencent.wxcloudrun.service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -19,4 +20,10 @@ public interface WxApi {
 
     List<String> getWatchOpenIdList();
 
+    /**
+     * 处理消息
+     * @param request request 请求
+     * @return 返回消息
+     */
+    String handleMessage(HttpServletRequest request);
 }
