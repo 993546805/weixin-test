@@ -135,6 +135,6 @@ public class WechatMessageUtil {
         textMessage.setContent("1");
 
         String s = textMessageToXml(textMessage);
-        System.out.println(s);
+        System.out.println("\uD83C\uDF08");
     }
 }

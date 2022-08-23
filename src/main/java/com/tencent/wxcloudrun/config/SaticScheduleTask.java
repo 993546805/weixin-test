@@ -1,10 +1,16 @@
 package com.tencent.wxcloudrun.config;
 
+import com.tencent.wxcloudrun.service.WxTemplateMessageSender;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * @author tu
@@ -14,8 +20,14 @@ import java.util.Date;
 @EnableScheduling
 public class SaticScheduleTask {
 
-    @Scheduled(cron = "0 0 15 ? * *")
+    private final Logger log = LoggerFactory.getLogger(SaticScheduleTask.class);
+
+    @Autowired
+    private WxTemplateMessageSender wxTemplateMessageSender;
+
+//    @Scheduled(cron = "0 0 9 * * *")
+    @Scheduled(cron = "0/30 * * * * *")
     private void sendTemplateMessage(){
-        System.out.println(new Date());
+            wxTemplateMessageSender.sendDailyMessage();
     }
 }

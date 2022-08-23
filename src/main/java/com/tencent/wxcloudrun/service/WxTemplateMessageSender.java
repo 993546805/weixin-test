@@ -11,4 +11,7 @@ public interface WxTemplateMessageSender {
     void send(Map<String, String> messageParam);
 
     void changeTemplateId(String templateId);
+
+    void sendDailyMessage();
+
 }
