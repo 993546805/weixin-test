@@ -124,4 +124,17 @@ public class WechatMessageUtil {
         return xstream.toXML(textMessage);
 
     }
+
+
+    public static void main(String[] args) {
+        TextMessage textMessage = new TextMessage();
+        textMessage.setMsgType("1");
+        textMessage.setToUserName("1");
+        textMessage.setFromUserName("1");
+        textMessage.setCreateTime(System.currentTimeMillis());
+        textMessage.setContent("1");
+
+        String s = textMessageToXml(textMessage);
+        System.out.println(s);
+    }
 }

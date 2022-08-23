@@ -8,9 +8,9 @@ import lombok.Data;
  */
 @Data
 public class TextMessage {
-    private String msgType;
-    private String toUserName;
-    private String fromUserName;
-    private Long createTime;
-    private String content;
+    private String MsgType;
+    private String ToUserName;
+    private String FromUserName;
+    private Long CreateTime;
+    private String Content;
 }
