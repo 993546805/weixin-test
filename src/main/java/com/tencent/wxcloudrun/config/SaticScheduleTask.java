@@ -26,7 +26,7 @@ public class SaticScheduleTask {
     private WxTemplateMessageSender wxTemplateMessageSender;
 
 //    @Scheduled(cron = "0 0 9 * * *")
-    @Scheduled(cron = "0/30 * * * * *")
+    @Scheduled(cron = "0 0/2 * * * *")
     private void sendTemplateMessage(){
             wxTemplateMessageSender.sendDailyMessage();
     }
