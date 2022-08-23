@@ -1,5 +1,6 @@
 package com.tencent.wxcloudrun.controller;
 
+import com.tencent.wxcloudrun.dto.TemplateMessageData;
 import com.tencent.wxcloudrun.service.WxTemplateMessageSender;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class WxTemplateMessageController {
     private WxTemplateMessageSender wxTemplateMessageSender;
 
     @PostMapping("/send_template_message")
-    public String sendMessage(@RequestBody Map<String, String> messageParam) {
+    public String sendMessage(@RequestBody Map<String, TemplateMessageData> messageParam) {
         try {
             wxTemplateMessageSender.send(messageParam);
         }catch (Exception e){

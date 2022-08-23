@@ -12,6 +12,10 @@ spring:
     view:
       suffix: .html
       prefix: /
+  mail:
+    host: smtp.qq.com
+    username: 993546805@qq.com
+    password: rzcdhoidulvibdia
 
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
@@ -23,3 +27,4 @@ wx:
 logging:
   level:
     com.tencent: debug
+

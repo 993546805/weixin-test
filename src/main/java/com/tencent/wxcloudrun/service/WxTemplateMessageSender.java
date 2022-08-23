@@ -1,6 +1,8 @@
 package com.tencent.wxcloudrun.service;
 
 
+import com.tencent.wxcloudrun.dto.TemplateMessageData;
+
 import java.util.Map;
 
 /**
@@ -8,10 +10,13 @@ import java.util.Map;
  */
 public interface WxTemplateMessageSender {
 
-    void send(Map<String, String> messageParam);
+    void send(Map<String, TemplateMessageData> messageParam);
 
     void changeTemplateId(String templateId);
 
     void sendDailyMessage();
+
+
+    String getLoveDescription(String content);
 
 }

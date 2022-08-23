@@ -1,6 +1,7 @@
 package com.tencent.wxcloudrun.service.impl;
 
 import com.tencent.wxcloudrun.core.exception.GlobalException;
+import com.tencent.wxcloudrun.dto.TemplateMessageData;
 import com.tencent.wxcloudrun.service.WxApi;
 import com.tencent.wxcloudrun.service.WxTemplateMessageSender;
 import org.springframework.beans.factory.InitializingBean;
@@ -21,7 +22,7 @@ public class WxTemplateMessageSenderImpl implements WxTemplateMessageSender, Ini
     @Autowired
     private WxApi wxApi;
 
-    private String templateId = "MS84gnKit3K-VzPvAitK6qmDs5R_5UPdpbZ0IBOqIw4";
+    private String templateId = "EWgKnyuarGWJxly4HYJ8lSzPa98qdgDQSDinGYlFHFA";
 
     private Set<String> nicknameSet = new HashSet<>();
     private Set<String> usedNicknameSet = new HashSet<>();
@@ -30,7 +31,7 @@ public class WxTemplateMessageSenderImpl implements WxTemplateMessageSender, Ini
     private Set<String> usedLoveDescrptionSet = new HashSet<>();
 
     @Override
-    public void send(@RequestBody Map<String, String> messageParam) {
+    public void send(@RequestBody Map<String, TemplateMessageData> messageParam) {
         Map<String, Object> dataMap = buildData(messageParam);
         List<String> openIdList = wxApi.getWatchOpenIdList();
         for (String openId : openIdList) {
@@ -46,17 +47,32 @@ public class WxTemplateMessageSenderImpl implements WxTemplateMessageSender, Ini
 
     @Override
     public void sendDailyMessage() {
-        Map<String, String> messageParam = new HashMap<>();
+        Map<String, TemplateMessageData> messageParam = new HashMap<>();
+        messageParam.put("nickName", new TemplateMessageData(getNickName(), "#000"));
+        messageParam.put("description", new TemplateMessageData(getDescription(Calendar.getInstance()), "#FF8066"));
+        messageParam.put("loveDescription", new TemplateMessageData(getLoveDescription(), "#FF7878"));
+
         Map<String, Object> dataMap = buildData(messageParam);
 
-        dataMap.put("nickName", getNickName());
-        dataMap.put("description", getDescription(Calendar.getInstance()));
-        dataMap.put("loveDescription", getLoveDescription());
+
         List<String> openIdList = wxApi.getWatchOpenIdList();
         for (String openId : openIdList) {
             Map<String, Object> messageBody = buildMessageBody(dataMap, openId, templateId, "#FF0000");
             wxApi.sendTemplateMessage(messageBody);
         }
+    }
+
+    @Override
+    public String getLoveDescription(String content) {
+        if (content == null) {
+            return getLoveDescription();
+        }
+        for (String str : loveDescrptionSet) {
+            if (str.contains(content)) {
+                return str;
+            }
+        }
+        return getLoveDescription();
     }
 
     private Map<String, Object> buildMessageBody(Map<String, Object> dataMap, String openId, String templateId, String topColor) {
@@ -71,13 +87,13 @@ public class WxTemplateMessageSenderImpl implements WxTemplateMessageSender, Ini
         return messageBody;
     }
 
-    private Map<String, Object> buildData(Map<String, String> messageParam) {
+    private Map<String, Object> buildData(Map<String, TemplateMessageData> messageParam) {
         Map<String, Object> dataMap = new HashMap<>();
-        for (Map.Entry<String, String> stringStringEntry : messageParam.entrySet()) {
+        for (Map.Entry<String, TemplateMessageData> messageDataEntry : messageParam.entrySet()) {
             Map<String, Object> value = new HashMap<>();
-            value.put("value", stringStringEntry.getValue());
-            value.put("color", "#c3c3c3");
-            dataMap.put(stringStringEntry.getKey(), value);
+            value.put("value", messageDataEntry.getValue().getValue());
+            value.put("color", (messageDataEntry.getValue().getColor() == null || "".equals(messageDataEntry.getValue().getColor())) ? "#c3c3c3" : messageDataEntry.getValue().getColor());
+            dataMap.put(messageDataEntry.getKey(), value);
         }
         return dataMap;
     }
@@ -136,7 +152,7 @@ public class WxTemplateMessageSenderImpl implements WxTemplateMessageSender, Ini
         return descrption;
     }
 
-    public Object getLoveDescription() {
+    public String getLoveDescription() {
         String[] loveDescrptionArr = loveDescrptionSet.toArray(new String[0]);
         Random random = new Random();
         int randomNum = random.nextInt();

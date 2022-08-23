@@ -3,7 +3,9 @@ package com.tencent.wxcloudrun.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tencent.wxcloudrun.dto.TextMessage;
 import com.tencent.wxcloudrun.dto.UserOpenIdDTO;
+import com.tencent.wxcloudrun.service.MailService;
 import com.tencent.wxcloudrun.service.WxApi;
+import com.tencent.wxcloudrun.service.WxTemplateMessageSender;
 import com.tencent.wxcloudrun.util.JsonUtils;
 import com.tencent.wxcloudrun.util.WechatMessageUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +37,12 @@ public class WxApiImpl implements WxApi {
 
     private volatile String accessToken;
     private Date accessTokenExpiredTime;
+
+
+    @Autowired
+    private WxTemplateMessageSender wxTemplateMessageSender;
+    @Autowired
+    private MailService mailService;
 
 
     private static final Map<String, String> URL_MAP = new HashMap<>();
@@ -117,6 +125,12 @@ public class WxApiImpl implements WxApi {
         // 消息类型
         String msgType = map.get("MsgType");
         String content = map.get("Content");
+        try {
+            mailService.sendContent(content);
+        } catch (Exception e) {
+            log.error("发送邮件失败. 消息内容: [{}]", content);
+        }
+
         // 默认回复一个"success"
         String responseMessage = "success";
         if (WechatMessageUtil.MESSAGE_TEXT.equals(msgType)) {
@@ -125,12 +139,21 @@ public class WxApiImpl implements WxApi {
             textMessage.setToUserName(fromUserName);
             textMessage.setFromUserName(toUserName);
             textMessage.setCreateTime(System.currentTimeMillis());
-            textMessage.setContent("收到!" + content);
+            textMessage.setContent(getReturnMessageByContent(content));
             responseMessage = WechatMessageUtil.textMessageToXml(textMessage);
 
         }
-        log.info("发送的消息: [{}]", responseMessage);
+        log.debug("发送的消息: [{}]", responseMessage);
         return responseMessage;
+    }
+
+    private String getReturnMessageByContent(String content) {
+
+        if (content.contains("屠红斌") || content.contains("乖") || content.contains("宝贝")) {
+            return "\uD83C\uDF37你是要和我表白嘛,表白的话就去私聊我吧~";
+        }
+
+        return wxTemplateMessageSender.getLoveDescription(content);
     }
 
 
