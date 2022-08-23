@@ -51,7 +51,7 @@ public class WxTemplateMessageSenderImpl implements WxTemplateMessageSender, Ini
     public void sendDailyMessage() {
         Map<String, TemplateMessageData> messageParam = new HashMap<>();
         messageParam.put("nickName", new TemplateMessageData(getNickName(), "#000"));
-        messageParam.put("description", new TemplateMessageData(getDescription(Calendar.getInstance()), "#FF8066"));
+        messageParam.put("description", new TemplateMessageData(getDescription(Calendar.getInstance()), "#E0C097"));
         messageParam.put("loveDescription", new TemplateMessageData(getLoveDescription(), "#FF7878"));
 
         Map<String, Object> dataMap = buildData(messageParam);
