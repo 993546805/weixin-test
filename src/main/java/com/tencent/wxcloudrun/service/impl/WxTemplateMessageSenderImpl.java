@@ -208,7 +208,7 @@ public class WxTemplateMessageSenderImpl implements WxTemplateMessageSender, Ini
         loveDescriptionSet.add("屠红斌会一直有秦溪敏～");
         loveDescriptionSet.add("幸好思念无声、否则震耳欲聋～");
         loveDescriptionSet.add("对啊～就是一直喜欢你啊～");
-        loveDescriptionSet.add("你就是我遥遥万里最牵挂的女孩子");
+        loveDescriptionSet.add("你就是我遥遥万里最牵挂的女孩子~");
         loveDescriptionSet.add("撒娇和粘人都是被动技能、只有遇到对的人才有触发的可能～");
         loveDescriptionSet.add("秋千水、竹马道、一眼见你、万物不及～");
         loveDescriptionSet.add("最重要的事就是见你～");
