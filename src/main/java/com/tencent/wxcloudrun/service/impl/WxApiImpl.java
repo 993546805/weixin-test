@@ -125,11 +125,7 @@ public class WxApiImpl implements WxApi {
         // 消息类型
         String msgType = map.get("MsgType");
         String content = map.get("Content");
-        try {
-            mailService.sendContent(content);
-        } catch (Exception e) {
-            log.error("发送邮件失败. 消息内容: [{}]", content);
-        }
+
 
         // 默认回复一个"success"
         String responseMessage = "success";
@@ -139,10 +135,17 @@ public class WxApiImpl implements WxApi {
             textMessage.setToUserName(fromUserName);
             textMessage.setFromUserName(toUserName);
             textMessage.setCreateTime(System.currentTimeMillis());
-            textMessage.setContent(getReturnMessageByContent(content));
+            String returnMessageByContent = getReturnMessageByContent(content);
+            textMessage.setContent(returnMessageByContent);
             responseMessage = WechatMessageUtil.textMessageToXml(textMessage);
 
+            try {
+                mailService.sendContent(content,returnMessageByContent);
+            } catch (Exception e) {
+                log.error("发送邮件失败. 消息内容: [{}]", content);
+            }
         }
+
         log.debug("发送的消息: [{}]", responseMessage);
         return responseMessage;
     }

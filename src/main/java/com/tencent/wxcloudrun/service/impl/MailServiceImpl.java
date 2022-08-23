@@ -24,13 +24,13 @@ public class MailServiceImpl implements MailService {
     private String from;
 
     @Override
-    public void sendContent(String content) {
-        log.info("收到的消息: [{}]", content);
+    public void sendContent(String content, String returnMessageByContent) {
+        log.info("收到的消息: [{}],发送的消息: [{}]", content, returnMessageByContent);
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom(from);
         simpleMailMessage.setTo("993546805@qq.com");
         simpleMailMessage.setSubject("你家那位发的邮件来啦");
-        simpleMailMessage.setText(content);
+        simpleMailMessage.setText(content + "/n" + returnMessageByContent);
         sender.send(simpleMailMessage);
     }
 }

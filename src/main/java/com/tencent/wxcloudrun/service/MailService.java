@@ -5,5 +5,5 @@ package com.tencent.wxcloudrun.service;
  */
 public interface MailService {
 
-    void sendContent(String content);
+    void sendContent(String content, String returnMessageByContent);
 }
