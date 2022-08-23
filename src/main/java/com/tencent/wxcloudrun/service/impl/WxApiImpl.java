@@ -152,7 +152,11 @@ public class WxApiImpl implements WxApi {
 
     private String getReturnMessageByContent(String content) {
 
-        if (content.contains("屠红斌") || content.contains("乖") || content.contains("宝贝")) {
+        if ( content.contains("屠红斌") ){
+            return "秦溪敏会一直有屠红斌~";
+        }
+
+        if ( content.contains("乖") || content.contains("宝贝")) {
             return "\uD83C\uDF37你是要和我表白嘛,表白的话就去私聊我吧~";
         }
 
