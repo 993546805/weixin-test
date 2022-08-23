@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author tu
@@ -39,7 +40,9 @@ public class WxSignatureCheckController {
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html;charset=UTF-8");
             String responseMessage = wxApi.handleMessage(request);
+            responseMessage=new String(responseMessage.getBytes(), StandardCharsets.ISO_8859_1);
             out.print(responseMessage);
             out.flush();
         } catch (UnsupportedEncodingException e) {
