@@ -27,4 +27,5 @@ public class WxCloudRunApplication implements InitializingBean {
     TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
     log.info("currentTime : [{}]",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
   }
+
 }
