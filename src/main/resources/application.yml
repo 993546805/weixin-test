@@ -26,5 +26,5 @@ wx:
   secret: 98b846fcecf7bbc381af0a83aa10abe4
 logging:
   level:
-    com.tencent: debug
+    com.tencent: info
 
